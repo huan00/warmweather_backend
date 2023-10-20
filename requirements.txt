@@ -24,7 +24,7 @@ langchain==0.0.27
 marshmallow==3.19.0
 multidict==6.0.4
 mypy-extensions==1.0.0
-numpy==1.26.1
+numpy==1.21.6
 openai==0.28.1
 packaging==23.2
 peppercorn==0.6

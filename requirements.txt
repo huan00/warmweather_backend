@@ -10,7 +10,7 @@ charset-normalizer==3.3.0
 dataclasses-json==0.6.1
 dj-database-url==2.1.0
 Django==3.2.22
-django-cors-headers==4.3.0
+django-cors-headers==4.1.0
 django-environ==0.11.2
 djangorestframework==3.14.0
 djangrestframework==0.0.1

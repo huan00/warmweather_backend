@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangrestframework = "*"
+psycopg2 = "*"
+django-cors-headers = "*"
+dj-database-url = "*"
+django-environ = "*"
+openai = "*"
+langchain = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"

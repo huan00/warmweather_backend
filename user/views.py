@@ -190,6 +190,8 @@ def get_outfit(request):
 def get_my_outfit(request):
     try:
         openai.api_key = os.getenv('OPENAI_API_KEY')
+        print(os.getenv('OPENAI_API_KEY'))
+        return Response(os.getenv('OPENAI_API_KEY'))
         model='text-davinci-003'
         weather = request.data
         gender = weather['gender']

@@ -21,6 +21,8 @@ from typing import List, Dict
 from .prompts import query_input, query_input_outfit
 
 import os
+import environ
+
 from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv())
 
@@ -189,9 +191,11 @@ def get_outfit(request):
 @api_view(['POST'])
 def get_my_outfit(request):
     try:
+        env = environ.Env()
+        environ.Env.read_env()
         openai.api_key = os.getenv('OPENAI_API_KEY')
-        print(os.getenv('OPENAI_API_KEY'))
-        return Response(os.getenv('OPENAI_API_KEY'))
+
+        return Response(os.environ.get('OPENAI_API_KEY'))
         model='text-davinci-003'
         weather = request.data
         gender = weather['gender']
@@ -245,7 +249,7 @@ def get_my_outfit(request):
         # json_response = json.loads(completion.choices[0].message['content'])
 
         # return Response(json_response, status=status.HTTP_200_OK)
-    except completion.DoesNotExist:
+    except os.getenv('OPENAI_API_KEY'):
         return ('bad')
     # return Response(json_response)
 

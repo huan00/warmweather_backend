@@ -188,63 +188,64 @@ def get_outfit(request):
 
 @api_view(['POST'])
 def get_my_outfit(request):
-    try:
-        openai.api_key = os.getenv('OPENAI_API_KEY')
-        model='text-davinci-003'
-        weather = request.data
-        gender = weather['gender']
-        sensitivity = weather['sensitivity']
+    return Response('hit end point')
+    # try:
+    #     openai.api_key = os.getenv('OPENAI_API_KEY')
+    #     model='text-davinci-003'
+    #     weather = request.data
+    #     gender = weather['gender']
+    #     sensitivity = weather['sensitivity']
 
 
-        prompt =f"""
-                You are a meteorologist and a fashion dresser. Given today's weather condition delimiter by ```. \
-                Generate an appropriate {gender} outfit for today's weather condition. following these rules. \
+    #     prompt =f"""
+    #             You are a meteorologist and a fashion dresser. Given today's weather condition delimiter by ```. \
+    #             Generate an appropriate {gender} outfit for today's weather condition. following these rules. \
                 
-                1. Outfit should consider what tops, jacket, pants, footware and accessories to wear. \
-                2. return one item for jacket or not required. \   
-                3. only return one item for pants. \
-                4. only return one item for shoe. \
-                5. consider my sensitivity to cold, i usually feel {sensitivity}. \
-                6. return response in json format delimiter by ''' \
+    #             1. Outfit should consider what tops, jacket, pants, footware and accessories to wear. \
+    #             2. return one item for jacket or not required. \   
+    #             3. only return one item for pants. \
+    #             4. only return one item for shoe. \
+    #             5. consider my sensitivity to cold, i usually feel {sensitivity}. \
+    #             6. return response in json format delimiter by ''' \
                 
 
-                tops should only consist of inner layer and mid layer.
-                jacket should be consist of tops outer layer and jacket, mark as not required if not appropriate for weather.
+    #             tops should only consist of inner layer and mid layer.
+    #             jacket should be consist of tops outer layer and jacket, mark as not required if not appropriate for weather.
 
-                ```
-                    Here are today's weather condition: \
-                        temperature high: {weather['temperature_high']},
-                        temperature low: {weather['temperature_low']},
-                        wind: {weather['wind']},
-                        humidity: {weather["humidity"]},
-                        condition: {weather["condition"]}
-                ```
+    #             ```
+    #                 Here are today's weather condition: \
+    #                     temperature high: {weather['temperature_high']},
+    #                     temperature low: {weather['temperature_low']},
+    #                     wind: {weather['wind']},
+    #                     humidity: {weather["humidity"]},
+    #                     condition: {weather["condition"]}
+    #             ```
 
-                '''
-                    "head": list,
-                    "tops": list,
-                    "jacket": list,
-                    "pants": list,
-                    "shoe": list,
-                    "accessory": list,
-                    "suggestion": string
-                '''
+    #             '''
+    #                 "head": list,
+    #                 "tops": list,
+    #                 "jacket": list,
+    #                 "pants": list,
+    #                 "shoe": list,
+    #                 "accessory": list,
+    #                 "suggestion": string
+    #             '''
                 
-                """
+    #             """
 
-        completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "you are a meteorologist, that have good fashion sense."},
-                {"role": "user", "content": prompt}
-            ]
-            )
+    #     completion = openai.ChatCompletion.create(
+    #         model="gpt-3.5-turbo",
+    #         messages=[
+    #             {"role": "system", "content": "you are a meteorologist, that have good fashion sense."},
+    #             {"role": "user", "content": prompt}
+    #         ]
+    #         )
 
-        json_response = json.loads(completion.choices[0].message['content'])
+    #     json_response = json.loads(completion.choices[0].message['content'])
 
-        return Response(json_response, status=status.HTTP_200_OK)
-    except completion.DoesNotExist:
-        return ('bad')
+    #     return Response(json_response, status=status.HTTP_200_OK)
+    # except completion.DoesNotExist:
+    #     return ('bad')
     # return Response(json_response)
 
 

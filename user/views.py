@@ -16,22 +16,14 @@ from .serializers import UserRegisterSerializer, UserLoginSerializer, UserUpdate
 from rest_framework.views import APIView
 from rest_framework.authtoken.views import ObtainAuthToken
 import openai
-from langchain.llms import OpenAI
-# from langchain.chat_models import ChatOpenAI
-from langchain import PromptTemplate
-# from langchain.prompts.chat import (ChatPromptTemplate, SystemMessagePromptTemplate, AIMessagePromptTemplate, HumanMessagePromptTemplate)
-from langchain.output_parsers import PydanticOutputParser, StructuredOutputParser
 from pydantic import BaseModel, Field, validator, conlist
 from typing import List, Dict
-from langchain.prompts import PromptTemplate
 from .prompts import query_input, query_input_outfit
 
 import os
+from dotenv import load_dotenv, find_dotenv
+_ = load_dotenv(find_dotenv())
 
-OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
-# llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY)
-model_name='text-davinci-003'
-model = OpenAI(model_name=model_name, temperature=1, openai_api_key=OPENAI_API_KEY, max_tokens=1028)
 
 
 # Create your views here.
@@ -163,19 +155,13 @@ class DeleteView(APIView):
         user.delete()
 
         return Response({"message": "user deleted"}, status=status.HTTP_202_ACCEPTED)
-
-# class GetUserView(APIView):
-#     permission_classes=[permissions.IsAuthenticated]
-#     authentication_classes=[TokenAuthentication]
-
-#     def get(self, request, pk=None):
-#         user = User.objects.get(pk=pk)
-#         user_serializer = UserSurveyDetailSerializer(user)
-
-#         return Response(user_serializer.data)
     
 
-    
+
+# temperature
+# model = OpenAI(model_name=model_name, temperature=1, openai_api_key=OPENAI_API_KEY, max_tokens=1028)
+
+
 # analyze survey question answer and associated weather to determine, if user will be cold today.
 class Clothing(BaseModel):
     # reason: str = Field(description='why choose clothing')
@@ -194,29 +180,6 @@ class Outfit(BaseModel):
 
 
 
-# class GiveFeedBack(APIView):
-#     permission_classes = [permissions.IsAuthenticated]
-#     authentication_classes = [TokenAuthentication]
-
-#     def get(self, request, pk=None):
-#         surveys = Survey.objects.filter(user=pk)
-#         survey_serializer = UserSurveySerializer(surveys, many=True)
-        
-
-#         parser = PydanticOutputParser(pydantic_object=ClothingFeedBack)
-
-#         prompt = PromptTemplate(
-#             template='Anwser the user query.\n{format_instructions}\n{query}\n',
-#             input_variables=['query'],
-#             partial_variables={'format_instructions': parser.get_format_instructions()}
-#         )
-
-#         _input = prompt.format_prompt(query=query_input)
-#         output = model(_input.to_string())
-#         _output = parser.parse(output)
-
-
-#         return Response(_output)
 
 @api_view(['GET'])
 def get_outfit(request):
@@ -237,13 +200,18 @@ def get_outfit(request):
 
 @api_view(['POST'])
 def get_my_outfit(request):
-    # parser = PydanticOutputParser(pydantic_object=Outfit)
+    openai.api_key = os.getenv('OPENAI_API_KEY')
+    model='text-davinci-003'
+
+    # # parser = PydanticOutputParser(pydantic_object=Outfit)
     weather = request.data
-    gender = weather['gender']
-    sensitivity = weather['sensitivity']
+    # gender = weather['gender']
+    gender = 'male'
+    # sensitivity = weather['sensitivity']
+    sensitivity = 'feel a little cold'
 
 
-    query =f"""
+    prompt =f"""
             You are a meteorologist and a fashion dresser. Given today's weather condition delimiter by ```. \
             Generate an appropriate {gender} outfit for today's weather condition. following these rules. \
              
@@ -279,23 +247,22 @@ def get_my_outfit(request):
             
             """
 
-    prompt = PromptTemplate(
-        # template='Anwser the user query.\n{format_instructions}\n{query}\n',
-        template='Anwser the user query.\n{query}\n',
-        input_variables=['query'],
-        # partial_variables={'format_instructions': parser.get_format_instructions()}
-    )
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "you are a meteorologist, that have good fashion sense."},
+            {"role": "user", "content": prompt}
+        ]
+        )
 
-    # print(parser.get_format_instructions())
+    json_response = json.loads(completion.choices[0].message['content'])
 
-    _input = prompt.format_prompt(query=query)
-    output = model(_input.to_string())
-
-
-    # _output = parser.parse(output)
-    # _output = StructuredOutputParser.from_response_schemas(output)
-    _output = json.loads(output)
+    return Response(json_response, status=status.HTTP_200_OK)
+    # return Response(json_response)
 
 
+@api_view(['POST'])
+def test_prompt(request):
+    print(request.data)
 
-    return Response(_output, status=status.HTTP_200_OK)
+    return Response('hello')

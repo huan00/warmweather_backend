@@ -21,7 +21,6 @@ gunicorn==21.2.0
 idna==3.4
 jsonpatch==1.33
 jsonpointer==2.4
-langsmith==0.0.49
 marshmallow==3.20.1
 multidict==6.0.4
 mypy-extensions==1.0.0
@@ -31,8 +30,6 @@ packaging==23.2
 peppercorn==0.6
 psycopg2==2.9.9
 psycopg2-binary==2.9.9
-pydantic==2.4.2
-pydantic_core==2.10.1
 python-dotenv==1.0.0
 pytz==2023.3.post1
 PyYAML==6.0.1

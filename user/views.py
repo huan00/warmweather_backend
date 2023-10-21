@@ -16,7 +16,7 @@ from .serializers import UserRegisterSerializer, UserLoginSerializer, UserUpdate
 from rest_framework.views import APIView
 from rest_framework.authtoken.views import ObtainAuthToken
 import openai
-from pydantic import BaseModel, Field, validator, conlist
+# from pydantic import BaseModel, Field, validator, conlist
 from typing import List, Dict
 from .prompts import query_input, query_input_outfit
 
@@ -150,26 +150,21 @@ class DeleteView(APIView):
         return Response({"message": "user deleted"}, status=status.HTTP_202_ACCEPTED)
     
 
+# # analyze survey question answer and associated weather to determine, if user will be cold today.
+# class Clothing(BaseModel):
+#     # reason: str = Field(description='why choose clothing')
+#    name: list[str] = Field(description='item name')
+# #    reason: dict = Field(description='reason for name item')
 
-# temperature
-# model = OpenAI(model_name=model_name, temperature=1, openai_api_key=OPENAI_API_KEY, max_tokens=1028)
-
-
-# analyze survey question answer and associated weather to determine, if user will be cold today.
-class Clothing(BaseModel):
-    # reason: str = Field(description='why choose clothing')
-   name: list[str] = Field(description='item name')
-#    reason: dict = Field(description='reason for name item')
-
-class Outfit(BaseModel):
-    # data: Dict[str, List[str]] = Field(description='clothing items')
-    head: list[str] = Field(description='head item list')
-    tops: list[str] = Field(description='tops item list')
-    jacket: list[str] = Field(description='jacket item list')
-    bottom: list[str] = Field(description='bottom item list')
-    shoe: list[str] = Field(description='shoe item list')
-    accessory: list[str] = Field(description='accessory item list')
-    suggestion: str = Field(description='under 20 words, give a brief summary of the wear and a suggestion on outfit to wear.')
+# class Outfit(BaseModel):
+#     # data: Dict[str, List[str]] = Field(description='clothing items')
+#     head: list[str] = Field(description='head item list')
+#     tops: list[str] = Field(description='tops item list')
+#     jacket: list[str] = Field(description='jacket item list')
+#     bottom: list[str] = Field(description='bottom item list')
+#     shoe: list[str] = Field(description='shoe item list')
+#     accessory: list[str] = Field(description='accessory item list')
+#     suggestion: str = Field(description='under 20 words, give a brief summary of the wear and a suggestion on outfit to wear.')
 
 
 
@@ -196,13 +191,9 @@ def get_my_outfit(request):
     try:
         openai.api_key = os.getenv('OPENAI_API_KEY')
         model='text-davinci-003'
-
-        # # parser = PydanticOutputParser(pydantic_object=Outfit)
         weather = request.data
-        # gender = weather['gender']
-        gender = 'male'
-        # sensitivity = weather['sensitivity']
-        sensitivity = 'feel a little cold'
+        gender = weather['gender']
+        sensitivity = weather['sensitivity']
 
 
         prompt =f"""

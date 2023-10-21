@@ -35,16 +35,10 @@ class RegisterUser(CreateAPIView):
     
     # register view logic
     def post(self, request):
-       
-
         # create a serializer of the input data
         serializer = self.serializer_class(data=request.data['userData'])
-
         # if data are valid create user, else raise error
         if serializer.is_valid():
-            
-            # if not isinstance(int(serializer.data['zip_code']), int):
-            #     raise ValueError('Zip code is invalid')
 
             # call create function to create user
             created_user = self.create(serializer)   
@@ -52,7 +46,6 @@ class RegisterUser(CreateAPIView):
             # create prompts
             # get user instance from database for token creations
             user = User.objects.get(username=serializer.data['username'].lower())
-
 
             user_serializer = self.serializer_class(user)
   
@@ -62,19 +55,15 @@ class RegisterUser(CreateAPIView):
                 'User': user_serializer.data['id']
             }
 
-            # prompt_serializer.is_valid(raise_exception=True)
-            # PromptSerializer.create(prompt_serializer)
             prompt_serializer = PromptSerializer(data=promptData)
             prompt_serializer.is_valid()
             prompt_serializer.save()
             
-
             token = Token.objects.create(user=user)
 
             # return reponse
             return Response({'token': token.key}, status=status.HTTP_200_OK)
         else:
-
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(ObtainAuthToken):
@@ -86,13 +75,17 @@ class LoginView(ObtainAuthToken):
         password = request.data['password']
         username = request.data['username']
         user = authenticate(username=username, password=password)
+
         
         # if no user found return with error
         if not user:
             return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
+        print(user)
+        user_instance = User.objects.get(username=user)
         # pull user data for requested user
         userData = self.serializer_class(User.objects.get(username=user))
+    
         # create token for user
         token = Token.objects.get_or_create(user=user)
 

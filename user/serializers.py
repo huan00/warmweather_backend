@@ -15,9 +15,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
                   'email', 
                   'first_name', 
                   'last_name', 
-                #   'address', 
-                #   'city', 
-                #   'state', 
                   'zip_code'
                   )
     
@@ -31,8 +28,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 class UserLoginSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-    prompt = PromptSerializer(read_only=True)
-    
+    prompt = PromptSerializer()
+
     class Meta:
         model = User
         fields = (
@@ -42,11 +39,8 @@ class UserLoginSerializer(serializers.ModelSerializer):
                   'email', 
                   'first_name', 
                   'last_name', 
-                #   'address', 
-                #   'city', 
-                #   'state', 
                   'zip_code',
-                  'prompts'
+                  'prompt'
                   )
 
 class UserUpdateSerializer(serializers.ModelSerializer):

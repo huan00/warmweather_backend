@@ -194,8 +194,9 @@ def get_my_outfit(request):
         env = environ.Env()
         environ.Env.read_env()
         openai.api_key = os.getenv('OPENAI_API_KEY')
-
-        return Response(os.environ.get('OPENAI_API_KEY'))
+        print(os.getenv('OPENAI_API_KEY'))
+        # env_var = os.environ.get('OPENAI_API_KEY').split(' ')
+        # return Response(os.environ.get('OPENAI_API_KEY'))
         model='text-davinci-003'
         weather = request.data
         gender = weather['gender']

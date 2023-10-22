@@ -194,11 +194,12 @@ def get_my_outfit(request):
         env = environ.Env()
         environ.Env.read_env()
         openai.api_key = os.environ['OPENAI_API_KEY']
+        print( os.environ['OPENAI_API_KEY'])
         # print(os.getenv('OPENAI_API_KEY'))
         # env_var = os.environ.get('OPENAI_API_KEY').split(' ')
-        # return Response(os.environ.get('OPENAI_API_KEY'))
         model='text-davinci-003'
         weather = request.data
+        # return Response(os.environ.get('OPENAI_API_KEY'))
         gender = weather['gender']
         sensitivity = weather['sensitivity']
 
@@ -238,18 +239,18 @@ def get_my_outfit(request):
                 '''
                 
                 """
-        return Response(prompt)
-        # completion = openai.ChatCompletion.create(
-        #     model="gpt-3.5-turbo",
-        #     messages=[
-        #         {"role": "system", "content": "you are a meteorologist, that have good fashion sense."},
-        #         {"role": "user", "content": prompt}
-        #     ]
-        #     )
+        # return Response(prompt)
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "you are a meteorologist, that have good fashion sense."},
+                {"role": "user", "content": prompt}
+            ]
+            )
 
-        # json_response = json.loads(completion.choices[0].message['content'])
+        json_response = json.loads(completion.choices[0].message['content'])
 
-        # return Response(json_response, status=status.HTTP_200_OK)
+        return Response(json_response, status=status.HTTP_200_OK)
     except os.getenv('OPENAI_API_KEY'):
         return ('bad')
     # return Response(json_response)

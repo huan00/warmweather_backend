@@ -34,7 +34,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    'https://warm-weather.netlify.app/'
+    'https://warm-weather.netlify.app'
 ]
 AUTH_USER_MODEL = 'user.User'
 

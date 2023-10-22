@@ -194,7 +194,6 @@ def get_my_outfit(request):
         # env = environ.Env()
         # environ.Env.read_env()
         openai.api_key = os.environ['OPENAI_API_KEY']
-        print( os.environ['OPENAI_API_KEY'])
         # print(os.getenv('OPENAI_API_KEY'))
         # env_var = os.environ.get('OPENAI_API_KEY').split(' ')
         model='text-davinci-003'
@@ -239,7 +238,6 @@ def get_my_outfit(request):
                 '''
                 
                 """
-        return Response(prompt)
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[

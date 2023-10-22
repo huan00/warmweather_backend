@@ -208,7 +208,7 @@ def get_my_outfit(request):
                 Generate an appropriate {gender} outfit for today's weather condition. following these rules. \
                 
                 1. Outfit should consider what tops, jacket, pants, footware and accessories to wear. \
-                2. return one item for jacket or not required. \   
+                2. return one item for jacket or empty list. \   
                 3. only return one item for pants. \
                 4. only return one item for shoe. \
                 5. consider my sensitivity to cold, i usually feel {sensitivity}. \
@@ -233,8 +233,9 @@ def get_my_outfit(request):
                     "jacket": list,
                     "pants": list,
                     "shoe": list,
-                    "accessory": list,
-                    "suggestion": string
+                    "accessory": list of items such as sunglasses, gloves,
+                    "suggestion": summary of outfit and weather in 20 words.
+                    "extras": list of items such as sunblock, umbrella
                 '''
                 
                 """

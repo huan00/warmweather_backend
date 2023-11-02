@@ -189,12 +189,12 @@ def get_my_outfit(request):
                 Generate an appropriate {gender} outfit for today's weather condition. following these rules. \
                 
                 1. Outfit should consider what tops, jacket, pants, footware and accessories to wear. \
-                2. Make sure the outfit is gender specific. \
-                3. recommend an appropriate jacket, base on the weather temperature. \   
-                4. only return one item for pants. \
-                5. only return one item for shoe. \
-                6. only return one item for head. \
-                7. consider my sensitivity to cold, i usually feel {sensitivity}. \
+                2. Make sure the outfit is specific for a {gender}. \
+                3. {sensitivity} compare to others. Make sure to consider this in the outfit recommendation. \
+                4. recommend an appropriate jacket, base on the weather temperature. \   
+                5. only return one item for pants. \
+                6. only return one item for shoe. \
+                7. only return one item for head. \
                 8. return response in json format delimiter by ''' \
                 
 

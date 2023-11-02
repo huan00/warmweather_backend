@@ -190,7 +190,7 @@ def get_my_outfit(request):
                 
                 1. Outfit should consider what tops, jacket, pants, footware and accessories to wear. \
                 2. Make sure the outfit is gender specific. \
-                3. return one item for jacket or empty list. \   
+                3. recommend an appropriate jacket, base on the weather temperature. \   
                 4. only return one item for pants. \
                 5. only return one item for shoe. \
                 6. only return one item for head. \

@@ -193,8 +193,9 @@ def get_my_outfit(request):
                 3. return one item for jacket or empty list. \   
                 4. only return one item for pants. \
                 5. only return one item for shoe. \
-                6. consider my sensitivity to cold, i usually feel {sensitivity}. \
-                7. return response in json format delimiter by ''' \
+                6. only return one item for head. \
+                7. consider my sensitivity to cold, i usually feel {sensitivity}. \
+                8. return response in json format delimiter by ''' \
                 
 
                 tops should only consist of inner layer and mid layer.

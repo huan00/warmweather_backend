@@ -150,25 +150,6 @@ class DeleteView(APIView):
         user.delete()
 
         return Response({"message": "user deleted"}, status=status.HTTP_202_ACCEPTED)
-    
-
-# # analyze survey question answer and associated weather to determine, if user will be cold today.
-# class Clothing(BaseModel):
-#     # reason: str = Field(description='why choose clothing')
-#    name: list[str] = Field(description='item name')
-# #    reason: dict = Field(description='reason for name item')
-
-# class Outfit(BaseModel):
-#     # data: Dict[str, List[str]] = Field(description='clothing items')
-#     head: list[str] = Field(description='head item list')
-#     tops: list[str] = Field(description='tops item list')
-#     jacket: list[str] = Field(description='jacket item list')
-#     bottom: list[str] = Field(description='bottom item list')
-#     shoe: list[str] = Field(description='shoe item list')
-#     accessory: list[str] = Field(description='accessory item list')
-#     suggestion: str = Field(description='under 20 words, give a brief summary of the wear and a suggestion on outfit to wear.')
-
-
 
 
 @api_view(['GET'])
@@ -208,11 +189,12 @@ def get_my_outfit(request):
                 Generate an appropriate {gender} outfit for today's weather condition. following these rules. \
                 
                 1. Outfit should consider what tops, jacket, pants, footware and accessories to wear. \
-                2. return one item for jacket or empty list. \   
-                3. only return one item for pants. \
-                4. only return one item for shoe. \
-                5. consider my sensitivity to cold, i usually feel {sensitivity}. \
-                6. return response in json format delimiter by ''' \
+                2. Make sure the outfit is gender specific. \
+                3. return one item for jacket or empty list. \   
+                4. only return one item for pants. \
+                5. only return one item for shoe. \
+                6. consider my sensitivity to cold, i usually feel {sensitivity}. \
+                7. return response in json format delimiter by ''' \
                 
 
                 tops should only consist of inner layer and mid layer.
